@@ -15,6 +15,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        petmanager: "bg-petmanager-primary text-white hover:bg-petmanager-primary/90",
+        cancel: "bg-petmanager-error/30 text-petmanager-error-foreground border border-petmanager-error/50 hover:bg-petmanager-error/40",
       },
       size: {
         default: "h-10 px-4 py-2",

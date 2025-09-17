@@ -47,6 +47,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        petmanager: {
+          primary: "hsl(var(--petmanager-primary))",
+          "primary-light": "hsl(var(--petmanager-primary-light))",
+          surface: "hsl(var(--petmanager-surface))",
+          error: "hsl(var(--petmanager-error))",
+          "error-foreground": "hsl(var(--petmanager-error-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
