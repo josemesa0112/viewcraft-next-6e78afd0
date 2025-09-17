@@ -41,7 +41,7 @@ export function Header({ userInitial = "G" }: HeaderProps) {
                 to="/providers"
                 className="block px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
               >
-                Gestión de Proveedores
+                Registro de Proveedores
               </Link>
               <Link
                 to="/roles"
