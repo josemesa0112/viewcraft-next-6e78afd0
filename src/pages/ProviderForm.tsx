@@ -20,7 +20,6 @@ import {
 } from "@/utils/providerValidation";
 
 type AlertType = 
-  | "success"
   | "nit-exists"
   | "invalid-name"
   | "invalid-email"
@@ -103,9 +102,9 @@ export default function ProviderForm() {
         direccion: formData.direccion
       });
 
-      // Mostrar alerta de éxito
-      setAlertType("success");
+      // Mostrar notificación de éxito
       setRegisteredName(formData.nombre);
+      setShowSuccess(true);
       
       // Reset form
       setFormData({
@@ -121,9 +120,6 @@ export default function ProviderForm() {
   };
 
   const handleCloseAlert = () => {
-    if (alertType === "success") {
-      setShowSuccess(true);
-    }
     setAlertType(null);
   };
 
@@ -222,11 +218,13 @@ export default function ProviderForm() {
         </Card>
       </div>
 
-      <ProviderAlertDialog 
-        isOpen={alertType !== null} 
-        onClose={handleCloseAlert}
-        type={alertType || "success"}
-      />
+      {alertType && (
+        <ProviderAlertDialog 
+          isOpen={true} 
+          onClose={handleCloseAlert}
+          type={alertType}
+        />
+      )}
 
       <SuccessNotification 
         isVisible={showSuccess}
