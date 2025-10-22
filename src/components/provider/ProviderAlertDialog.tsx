@@ -55,13 +55,11 @@ export function ProviderAlertDialog({ isOpen, onClose, type }: ProviderAlertDial
               transform: 'translateZ(0)',
             }}
           />
-          <Button
+          <button
             onClick={onClose}
-            variant="ghost"
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 hover:bg-transparent px-8 py-2"
-          >
-            <span className="sr-only">Regresar</span>
-          </Button>
+            className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[35%] h-[8%] cursor-pointer bg-transparent border-0 hover:opacity-80 transition-opacity"
+            aria-label="Regresar"
+          />
         </div>
       </DialogContent>
     </Dialog>
