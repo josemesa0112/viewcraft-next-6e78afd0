@@ -7,10 +7,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { ProviderAlertDialog } from "@/components/provider/ProviderAlertDialog";
+import { SuccessNotification } from "@/components/provider/SuccessNotification";
+import {
+  validateName,
+  validateNIT,
+  validateEmail,
+  validatePhone,
+  validateAddress,
+  checkNITExists,
+  saveProvider
+} from "@/utils/providerValidation";
+
+type AlertType = 
+  | "success"
+  | "nit-exists"
+  | "invalid-name"
+  | "invalid-email"
+  | "invalid-phone"
+  | "invalid-nit"
+  | "invalid-address"
+  | null;
 
 export default function ProviderForm() {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     nombre: "",
     nit: "",
@@ -18,6 +37,10 @@ export default function ProviderForm() {
     email: "",
     direccion: ""
   });
+  
+  const [alertType, setAlertType] = useState<AlertType>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [registeredName, setRegisteredName] = useState("");
 
   const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -29,30 +52,79 @@ export default function ProviderForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validation
-    if (!formData.nombre || !formData.nit || !formData.email) {
-      toast({
-        variant: "destructive",
-        title: "Error de validación",
-        description: "Por favor complete todos los campos requeridos.",
-      });
+    // Validar nombre
+    const nameValidation = validateName(formData.nombre);
+    if (!nameValidation.isValid) {
+      setAlertType(nameValidation.errorType!);
       return;
     }
 
-    // Success simulation
-    toast({
-      title: "Proveedor registrado",
-      description: `${formData.nombre} se ha registrado exitosamente.`,
-    });
-    
-    // Reset form
-    setFormData({
-      nombre: "",
-      nit: "",
-      telefono: "",
-      email: "",
-      direccion: ""
-    });
+    // Validar NIT formato
+    const nitValidation = validateNIT(formData.nit);
+    if (!nitValidation.isValid) {
+      setAlertType(nitValidation.errorType!);
+      return;
+    }
+
+    // Verificar si el NIT ya existe
+    if (checkNITExists(formData.nit)) {
+      setAlertType("nit-exists");
+      return;
+    }
+
+    // Validar email
+    const emailValidation = validateEmail(formData.email);
+    if (!emailValidation.isValid) {
+      setAlertType(emailValidation.errorType!);
+      return;
+    }
+
+    // Validar teléfono
+    const phoneValidation = validatePhone(formData.telefono);
+    if (!phoneValidation.isValid) {
+      setAlertType(phoneValidation.errorType!);
+      return;
+    }
+
+    // Validar dirección
+    const addressValidation = validateAddress(formData.direccion);
+    if (!addressValidation.isValid) {
+      setAlertType(addressValidation.errorType!);
+      return;
+    }
+
+    // Guardar proveedor
+    try {
+      saveProvider({
+        nombre: formData.nombre,
+        nit: formData.nit,
+        email: formData.email,
+        telefono: formData.telefono,
+        direccion: formData.direccion
+      });
+
+      // Mostrar alerta de éxito
+      setAlertType("success");
+      setRegisteredName(formData.nombre);
+      
+      // Reset form
+      setFormData({
+        nombre: "",
+        nit: "",
+        telefono: "",
+        email: "",
+        direccion: ""
+      });
+    } catch (error) {
+      console.error("Error al guardar proveedor:", error);
+    }
+  };
+
+  const handleCloseAlert = () => {
+    if (alertType === "success") {
+      setShowSuccess(true);
+    }
+    setAlertType(null);
   };
 
   return (
@@ -149,6 +221,18 @@ export default function ProviderForm() {
           </CardContent>
         </Card>
       </div>
+
+      <ProviderAlertDialog 
+        isOpen={alertType !== null} 
+        onClose={handleCloseAlert}
+        type={alertType || "success"}
+      />
+
+      <SuccessNotification 
+        isVisible={showSuccess}
+        providerName={registeredName}
+        onClose={() => setShowSuccess(false)}
+      />
     </Layout>
   );
 }
