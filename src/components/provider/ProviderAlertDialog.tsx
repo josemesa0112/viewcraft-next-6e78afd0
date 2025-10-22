@@ -43,12 +43,17 @@ export function ProviderAlertDialog({ isOpen, onClose, type }: ProviderAlertDial
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md p-0 bg-transparent border-0 shadow-none">
-        <div className="relative w-full">
+      <DialogContent className="max-w-2xl p-0 bg-transparent border-0 shadow-none">
+        <div className="relative w-full flex items-center justify-center">
           <img 
             src={alertImage} 
             alt={altText}
-            className="w-full h-auto"
+            className="w-full h-auto max-h-[85vh] object-contain"
+            style={{
+              imageRendering: '-webkit-optimize-contrast',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)',
+            }}
           />
           <Button
             onClick={onClose}

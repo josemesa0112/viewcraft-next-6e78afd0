@@ -25,7 +25,12 @@ export function SuccessNotification({ isVisible, providerName, onClose }: Succes
         <img 
           src={successNotificationImg} 
           alt="Proveedor registrado" 
-          className="w-80 h-auto drop-shadow-2xl"
+          className="w-96 h-auto drop-shadow-2xl"
+          style={{
+            imageRendering: '-webkit-optimize-contrast',
+            backfaceVisibility: 'hidden',
+            transform: 'translateZ(0)',
+          }}
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 pt-4">
           <p className="text-sm font-medium text-foreground mb-1">Proveedor registrado</p>
