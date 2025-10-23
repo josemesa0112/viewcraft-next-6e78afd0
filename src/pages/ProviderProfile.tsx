@@ -95,37 +95,39 @@ export default function ProviderProfile() {
             </p>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label>Nombre</Label>
-                <Input value={provider.name} readOnly className="bg-background" />
+            <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="font-bold">Nombre</Label>
+                  <Input value={provider.name} readOnly className="bg-background" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="font-bold">NIT</Label>
+                  <Input value={provider.nit} readOnly className="bg-background" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="font-bold">Teléfono</Label>
+                  <Input value={provider.phone} readOnly className="bg-background" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="font-bold">Email</Label>
+                  <Input value={provider.email} readOnly className="bg-background" />
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label>NIT</Label>
-                <Input value={provider.nit} readOnly className="bg-background" />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Teléfono</Label>
-                <Input value={provider.phone} readOnly className="bg-background" />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Email</Label>
-                <Input value={provider.email} readOnly className="bg-background" />
-              </div>
-
-              <div className="space-y-2 md:col-span-2">
-                <Label>Dirección</Label>
+                <Label className="font-bold">Dirección</Label>
                 <Input value={provider.address} readOnly className="bg-background" />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <Label>Condiciones de pago</Label>
-                <div className="flex gap-4">
+              <div className="space-y-2">
+                <Label className="font-bold">Condiciones de pago</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Select value={provider.paymentCondition} disabled>
-                    <SelectTrigger className="flex-1 bg-background">
+                    <SelectTrigger className="bg-background">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -135,15 +137,15 @@ export default function ProviderProfile() {
                       <SelectItem value="Crédito a 60 días">Crédito a 60 días</SelectItem>
                     </SelectContent>
                   </Select>
-                  <div className="flex-1">
+                  <div className="space-y-2">
                     <Label>Otra:</Label>
                     <Input className="bg-background" readOnly />
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <Label>Información adicional</Label>
+              <div className="space-y-2">
+                <Label className="font-bold">Información adicional</Label>
                 <Textarea
                   value={provider.additionalInfo}
                   readOnly
@@ -152,7 +154,7 @@ export default function ProviderProfile() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-4">
+            <div className="flex justify-end gap-4 pt-6">
               <Button
                 variant="default"
                 className="bg-[hsl(var(--petmanager-accent))] hover:bg-[hsl(var(--petmanager-accent))]/90"
