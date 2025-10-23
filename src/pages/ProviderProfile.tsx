@@ -94,75 +94,76 @@ export default function ProviderProfile() {
               Información acerca del proveedor:
             </p>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 gap-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="font-bold">Nombre</Label>
-                  <Input value={provider.name} readOnly className="bg-background" />
-                </div>
+          <CardContent className="space-y-4 px-12">
+            {/* Nombre */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-center">
+              <Label className="font-bold text-foreground">Nombre</Label>
+              <Input value={provider.name} readOnly className="bg-background border-input" />
+            </div>
 
-                <div className="space-y-2">
-                  <Label className="font-bold">NIT</Label>
-                  <Input value={provider.nit} readOnly className="bg-background" />
-                </div>
+            {/* NIT */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-center">
+              <Label className="font-bold text-foreground">NIT</Label>
+              <Input value={provider.nit} readOnly className="bg-background border-input" />
+            </div>
 
-                <div className="space-y-2">
-                  <Label className="font-bold">Teléfono</Label>
-                  <Input value={provider.phone} readOnly className="bg-background" />
-                </div>
+            {/* Teléfono */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-center">
+              <Label className="font-bold text-foreground">Teléfono</Label>
+              <Input value={provider.phone} readOnly className="bg-background border-input" />
+            </div>
 
-                <div className="space-y-2">
-                  <Label className="font-bold">Email</Label>
-                  <Input value={provider.email} readOnly className="bg-background" />
-                </div>
-              </div>
+            {/* Email */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-center">
+              <Label className="font-bold text-foreground">Email</Label>
+              <Input value={provider.email} readOnly className="bg-background border-input" />
+            </div>
 
-              <div className="space-y-2">
-                <Label className="font-bold">Dirección</Label>
-                <Input value={provider.address} readOnly className="bg-background" />
-              </div>
+            {/* Dirección */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-center">
+              <Label className="font-bold text-foreground">Dirección</Label>
+              <Input value={provider.address} readOnly className="bg-background border-input" />
+            </div>
 
-              <div className="space-y-2">
-                <Label className="font-bold">Condiciones de pago</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Select value={provider.paymentCondition} disabled>
-                    <SelectTrigger className="bg-background">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Contado">Contado</SelectItem>
-                      <SelectItem value="Crédito a 30 días">Crédito a 30 días</SelectItem>
-                      <SelectItem value="Crédito a 45 días">Crédito a 45 días</SelectItem>
-                      <SelectItem value="Crédito a 60 días">Crédito a 60 días</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <div className="space-y-2">
-                    <Label>Otra:</Label>
-                    <Input className="bg-background" readOnly />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="font-bold">Información adicional</Label>
-                <Textarea
-                  value={provider.additionalInfo}
-                  readOnly
-                  className="bg-background min-h-[100px]"
-                />
+            {/* Condiciones de pago */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-start">
+              <Label className="font-bold text-foreground pt-2">Condiciones de pago</Label>
+              <div className="flex gap-4 items-center">
+                <Select value={provider.paymentCondition} disabled>
+                  <SelectTrigger className="w-[200px] bg-background border-input">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Contado">Contado</SelectItem>
+                    <SelectItem value="Crédito a 30 días">Crédito a 30 días</SelectItem>
+                    <SelectItem value="Crédito a 45 días">Crédito a 45 días</SelectItem>
+                    <SelectItem value="Crédito a 60 días">Crédito a 60 días</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Label className="text-foreground">Otra:</Label>
+                <Input className="flex-1 bg-background border-input" readOnly />
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-6">
+            {/* Información adicional */}
+            <div className="grid grid-cols-[180px_1fr] gap-4 items-start">
+              <Label className="font-bold text-foreground pt-2">Información adicional</Label>
+              <Textarea
+                value={provider.additionalInfo}
+                readOnly
+                className="bg-background border-input min-h-[120px] resize-none"
+              />
+            </div>
+
+            {/* Botones */}
+            <div className="flex justify-end gap-4 pt-8">
               <Button
-                variant="default"
-                className="bg-[hsl(var(--petmanager-accent))] hover:bg-[hsl(var(--petmanager-accent))]/90"
+                className="bg-[hsl(180,60%,70%)] hover:bg-[hsl(180,60%,65%)] text-foreground"
               >
                 Ver registro de pagos
               </Button>
               <Button
-                variant="destructive"
+                className="bg-[hsl(350,60%,75%)] hover:bg-[hsl(350,60%,70%)] text-foreground"
                 onClick={() => navigate("/proveedores")}
               >
                 Regresar
