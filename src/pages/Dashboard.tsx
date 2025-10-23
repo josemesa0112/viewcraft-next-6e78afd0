@@ -55,16 +55,16 @@ export default function Dashboard() {
           <Card className="bg-petmanager-surface shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center space-x-2">
-                <Package className="h-6 w-6 text-petmanager-primary" />
-                <CardTitle className="text-lg">Inventario</CardTitle>
+                <UserPlus className="h-6 w-6 text-petmanager-primary" />
+                <CardTitle className="text-lg">Proveedores</CardTitle>
               </div>
               <CardDescription>
-                Control de productos y stock disponible
+                Perfil y registro de pago de los proveedores
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Próximamente
+              <Button asChild variant="petmanager" className="w-full">
+                <Link to="/proveedores">Ver Proveedores</Link>
               </Button>
             </CardContent>
           </Card>

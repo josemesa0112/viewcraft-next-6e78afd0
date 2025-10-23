@@ -49,6 +49,12 @@ export function Header({ userInitial = "G" }: HeaderProps) {
               >
                 Gestión de Roles
               </Link>
+              <Link
+                to="/proveedores"
+                className="block px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+              >
+                Proveedores
+              </Link>
             </nav>
           </SheetContent>
         </Sheet>
