@@ -157,7 +157,8 @@ export default function ProviderProfile() {
 
             {/* Botones */}
             <div className="flex justify-end gap-4 pt-8">
-              <Button
+            <Button
+                onClick={() => navigate(`/proveedores/${id}/pagos`)}
                 className="bg-[hsl(180,60%,70%)] hover:bg-[hsl(180,60%,65%)] text-foreground"
               >
                 Ver registro de pagos

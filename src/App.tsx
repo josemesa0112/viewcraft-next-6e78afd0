@@ -8,6 +8,7 @@ import ProviderForm from "./pages/ProviderForm";
 import RoleManagement from "./pages/RoleManagement";
 import Proveedores from "./pages/Proveedores";
 import ProviderProfile from "./pages/ProviderProfile";
+import PaymentRegistry from "./pages/PaymentRegistry";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/roles" element={<RoleManagement />} />
           <Route path="/proveedores" element={<Proveedores />} />
           <Route path="/proveedores/:id" element={<ProviderProfile />} />
+          <Route path="/proveedores/:id/pagos" element={<PaymentRegistry />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
