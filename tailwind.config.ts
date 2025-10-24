@@ -51,6 +51,8 @@ export default {
           primary: "hsl(var(--petmanager-primary))",
           "primary-light": "hsl(var(--petmanager-primary-light))",
           surface: "hsl(var(--petmanager-surface))",
+          accent: "hsl(var(--petmanager-accent))",
+          success: "hsl(var(--petmanager-success))",
           error: "hsl(var(--petmanager-error))",
           "error-foreground": "hsl(var(--petmanager-error-foreground))",
         },

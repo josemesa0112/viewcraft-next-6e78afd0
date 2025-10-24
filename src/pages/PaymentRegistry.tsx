@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Clock } from "lucide-react";
 import {
   Table,
@@ -13,6 +13,7 @@ import {
 
 export default function PaymentRegistry() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const lastPaymentData = [
     {
@@ -85,6 +86,7 @@ export default function PaymentRegistry() {
               No hay un próximo pago programado.
             </p>
             <Button 
+              onClick={() => navigate(`/proveedores/${id}/programar-pago`)}
               className="bg-petmanager-accent hover:bg-petmanager-accent/90 text-foreground"
             >
               Programar pago

@@ -40,6 +40,8 @@ All colors MUST be HSL.
     --petmanager-primary: 120 35% 65%;
     --petmanager-primary-light: 120 45% 85%;
     --petmanager-surface: 0 0% 100%;
+    --petmanager-accent: 180 60% 70%;
+    --petmanager-success: 140 50% 75%;
     --petmanager-error: 0 65% 85%;
     --petmanager-error-foreground: 0 65% 45%;
 
@@ -95,6 +97,8 @@ All colors MUST be HSL.
     --petmanager-primary: 120 35% 55%;
     --petmanager-primary-light: 120 25% 25%;
     --petmanager-surface: 150 15% 12%;
+    --petmanager-accent: 180 50% 50%;
+    --petmanager-success: 140 40% 50%;
     --petmanager-error: 0 45% 25%;
     --petmanager-error-foreground: 0 65% 75%;
     --sidebar-background: 240 5.9% 10%;
