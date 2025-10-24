@@ -98,7 +98,7 @@ export default function PaymentRegistry() {
         <div className="flex justify-end">
           <Button
             variant="cancel"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/proveedores/${id}`)}
             className="px-8"
           >
             Regresar
