@@ -7,26 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ProviderAlertDialog } from "@/components/provider/ProviderAlertDialog";
-import { SuccessNotification } from "@/components/provider/SuccessNotification";
+import { ValidationModal } from "@/components/provider/ValidationModal";
 import {
   validateName,
   validateNIT,
   validateEmail,
   validatePhone,
   validateAddress,
+  validatePassword,
   checkNITExists,
   saveProvider
 } from "@/utils/providerValidation";
-
-type AlertType = 
-  | "nit-exists"
-  | "invalid-name"
-  | "invalid-email"
-  | "invalid-phone"
-  | "invalid-nit"
-  | "invalid-address"
-  | null;
 
 export default function ProviderForm() {
   const [formData, setFormData] = useState({
@@ -34,12 +25,13 @@ export default function ProviderForm() {
     nit: "",
     telefono: "",
     email: "",
-    direccion: ""
+    direccion: "",
+    password: ""
   });
   
-  const [alertType, setAlertType] = useState<AlertType>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [registeredName, setRegisteredName] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
+  const [showValidationModal, setShowValidationModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -54,41 +46,62 @@ export default function ProviderForm() {
     // Validar nombre
     const nameValidation = validateName(formData.nombre);
     if (!nameValidation.isValid) {
-      setAlertType(nameValidation.errorType!);
+      setValidationMessage(nameValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
     // Validar NIT formato
     const nitValidation = validateNIT(formData.nit);
     if (!nitValidation.isValid) {
-      setAlertType(nitValidation.errorType!);
+      setValidationMessage(nitValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
     // Verificar si el NIT ya existe
     if (checkNITExists(formData.nit)) {
-      setAlertType("nit-exists");
+      setValidationMessage("Ya existe un usuario con ese número de documento registrado.");
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
     // Validar email
     const emailValidation = validateEmail(formData.email);
     if (!emailValidation.isValid) {
-      setAlertType(emailValidation.errorType!);
+      setValidationMessage(emailValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
     // Validar teléfono
     const phoneValidation = validatePhone(formData.telefono);
     if (!phoneValidation.isValid) {
-      setAlertType(phoneValidation.errorType!);
+      setValidationMessage(phoneValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
     // Validar dirección
     const addressValidation = validateAddress(formData.direccion);
     if (!addressValidation.isValid) {
-      setAlertType(addressValidation.errorType!);
+      setValidationMessage(addressValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
+      return;
+    }
+
+    // Validar contraseña
+    const passwordValidation = validatePassword(formData.password);
+    if (!passwordValidation.isValid) {
+      setValidationMessage(passwordValidation.message!);
+      setIsSuccess(false);
+      setShowValidationModal(true);
       return;
     }
 
@@ -103,8 +116,9 @@ export default function ProviderForm() {
       });
 
       // Mostrar notificación de éxito
-      setRegisteredName(formData.nombre);
-      setShowSuccess(true);
+      setValidationMessage("Usuario registrado exitosamente.");
+      setIsSuccess(true);
+      setShowValidationModal(true);
       
       // Reset form
       setFormData({
@@ -112,15 +126,12 @@ export default function ProviderForm() {
         nit: "",
         telefono: "",
         email: "",
-        direccion: ""
+        direccion: "",
+        password: ""
       });
     } catch (error) {
       console.error("Error al guardar proveedor:", error);
     }
-  };
-
-  const handleCloseAlert = () => {
-    setAlertType(null);
   };
 
   return (
@@ -192,6 +203,18 @@ export default function ProviderForm() {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="password">Contraseña</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleInputChange("password")}
+                  className="bg-muted/30"
+                  required
+                />
+              </div>
+
               <div className="flex flex-col gap-3 pt-4">
                 <Button
                   type="submit"
@@ -218,18 +241,11 @@ export default function ProviderForm() {
         </Card>
       </div>
 
-      {alertType && (
-        <ProviderAlertDialog 
-          isOpen={true} 
-          onClose={handleCloseAlert}
-          type={alertType}
-        />
-      )}
-
-      <SuccessNotification 
-        isVisible={showSuccess}
-        providerName={registeredName}
-        onClose={() => setShowSuccess(false)}
+      <ValidationModal
+        isOpen={showValidationModal}
+        onClose={() => setShowValidationModal(false)}
+        message={validationMessage}
+        isSuccess={isSuccess}
       />
     </Layout>
   );
