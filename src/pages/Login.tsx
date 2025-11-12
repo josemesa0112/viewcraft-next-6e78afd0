@@ -11,13 +11,13 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implementar lógica de login con el backend
-    console.log("Login attempt:", { email, password });
+    // Simulación: Navegar directamente al Dashboard
+    navigate("/");
   };
 
   const handleRegister = () => {
-    // TODO: Navegar a página de registro
-    console.log("Navigate to register");
+    // Simulación: Navegar al Dashboard también
+    navigate("/");
   };
 
   return (
