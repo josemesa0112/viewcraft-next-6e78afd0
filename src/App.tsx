@@ -10,6 +10,7 @@ import Proveedores from "./pages/Proveedores";
 import ProviderProfile from "./pages/ProviderProfile";
 import PaymentRegistry from "./pages/PaymentRegistry";
 import SchedulePayment from "./pages/SchedulePayment";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/providers" element={<ProviderForm />} />
           <Route path="/roles" element={<RoleManagement />} />
