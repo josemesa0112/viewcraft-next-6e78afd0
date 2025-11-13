@@ -12,8 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Search, ChevronLeft, ChevronRight, Shield } from "lucide-react";
-import { CustomAlertDialog } from "@/components/ui/custom-alert-dialog";
+import { Search, ChevronLeft, ChevronRight, UserPlus } from "lucide-react";
+import { UserRegistrationForm } from "@/components/user/UserRegistrationForm";
 
 interface User {
   id: string;
@@ -32,7 +32,7 @@ const mockUsers: User[] = [
 export default function RoleManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPermissionDialog, setShowPermissionDialog] = useState(false);
+  const [showCreateUser, setShowCreateUser] = useState(false);
   const itemsPerPage = 5;
 
   const filteredUsers = mockUsers.filter((user) =>
@@ -56,6 +56,15 @@ export default function RoleManagement() {
     }
   };
 
+  // Si se está mostrando el formulario de creación de usuario
+  if (showCreateUser) {
+    return (
+      <Layout userInitial="A">
+        <UserRegistrationForm onCancel={() => setShowCreateUser(false)} />
+      </Layout>
+    );
+  }
+
   return (
     <Layout userInitial="A">
       <div className="space-y-6">
@@ -66,11 +75,11 @@ export default function RoleManagement() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setShowPermissionDialog(true)}
+                onClick={() => setShowCreateUser(true)}
                 className="gap-2"
               >
-                <Shield className="h-4 w-4" />
-                Permisos Avanzados
+                <UserPlus className="h-4 w-4" />
+                Crear Usuario
               </Button>
             </div>
           </CardHeader>
@@ -141,14 +150,6 @@ export default function RoleManagement() {
             </div>
             </CardContent>
         </Card>
-
-        <CustomAlertDialog
-          isOpen={showPermissionDialog}
-          onClose={() => setShowPermissionDialog(false)}
-          title="Error"
-          description="No tienes permisos para acceder a esta funcionalidad"
-          variant="error"
-        />
       </div>
     </Layout>
   );
