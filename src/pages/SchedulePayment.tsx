@@ -36,24 +36,24 @@ export default function SchedulePayment() {
 
   return (
     <Layout userInitial="G">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-6xl mx-auto">
+      <div className="bg-card rounded-lg shadow-md p-8 max-w-6xl mx-auto">
         {/* Header with Icon and Title */}
         <div className="flex items-center gap-4 mb-8">
           <div className="w-16 h-16 rounded-full bg-petmanager-accent/20 flex items-center justify-center">
             <CalendarClock className="w-8 h-8 text-petmanager-primary" />
           </div>
-          <h1 className="text-3xl font-bold">Programar pago</h1>
+          <h1 className="text-3xl font-bold text-card-foreground">Programar pago</h1>
         </div>
 
         {/* Main Content: Two Columns */}
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           {/* Left Column: Date Selection */}
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Selecciona la fecha del pago</h2>
+            <h2 className="text-xl font-semibold mb-4 text-card-foreground">Selecciona la fecha del pago</h2>
             
             {/* Date Input Fields */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Fecha</label>
+              <label className="text-sm font-medium text-card-foreground">Fecha</label>
               <div className="flex gap-2">
                 <Input 
                   placeholder="dd" 
@@ -86,7 +86,7 @@ export default function SchedulePayment() {
 
           {/* Right Column: Products */}
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Añade los productos para esta fecha</h2>
+            <h2 className="text-xl font-semibold mb-4 text-card-foreground">Añade los productos para esta fecha</h2>
             
             {/* Product Headers */}
             <div className="grid grid-cols-[2fr_1fr_1fr] gap-4 text-sm text-muted-foreground font-medium mb-2">
