@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "next-themes";
 import Dashboard from "./pages/Dashboard";
 import ProviderForm from "./pages/ProviderForm";
 import RoleManagement from "./pages/RoleManagement";
@@ -17,24 +18,26 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/providers" element={<ProviderForm />} />
-          <Route path="/roles" element={<RoleManagement />} />
-          <Route path="/proveedores" element={<Proveedores />} />
-          <Route path="/proveedores/:id" element={<ProviderProfile />} />
-          <Route path="/proveedores/:id/pagos" element={<PaymentRegistry />} />
-          <Route path="/proveedores/:id/programar-pago" element={<SchedulePayment />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/providers" element={<ProviderForm />} />
+            <Route path="/roles" element={<RoleManagement />} />
+            <Route path="/proveedores" element={<Proveedores />} />
+            <Route path="/proveedores/:id" element={<ProviderProfile />} />
+            <Route path="/proveedores/:id/pagos" element={<PaymentRegistry />} />
+            <Route path="/proveedores/:id/programar-pago" element={<SchedulePayment />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
