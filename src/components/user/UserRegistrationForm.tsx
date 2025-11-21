@@ -69,15 +69,15 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
-      <Card className="w-full max-w-md bg-white shadow-xl">
+      <Card className="w-full max-w-md bg-card shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-foreground">
+          <CardTitle className="text-2xl font-bold text-card-foreground">
             Registro de usuario
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 px-8 pb-8">
           <div className="space-y-2">
-            <Label htmlFor="nombreCompleto" className="text-sm font-medium text-foreground">
+            <Label htmlFor="nombreCompleto" className="text-sm font-medium text-card-foreground">
               Nombre Completo
             </Label>
             <Input
@@ -85,12 +85,12 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
               type="text"
               value={formData.nombreCompleto}
               onChange={(e) => handleInputChange("nombreCompleto", e.target.value)}
-              className="bg-background border-input"
+              className="bg-card border-input text-card-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-foreground">
+            <Label htmlFor="email" className="text-sm font-medium text-card-foreground">
               Email
             </Label>
             <Input
@@ -98,12 +98,12 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="bg-background border-input"
+              className="bg-card border-input text-card-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="documento" className="text-sm font-medium text-foreground">
+            <Label htmlFor="documento" className="text-sm font-medium text-card-foreground">
               Documento
             </Label>
             <Input
@@ -111,12 +111,12 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
               type="text"
               value={formData.documento}
               onChange={(e) => handleInputChange("documento", e.target.value)}
-              className="bg-background border-input"
+              className="bg-card border-input text-card-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="contrasena" className="text-sm font-medium text-foreground">
+            <Label htmlFor="contrasena" className="text-sm font-medium text-card-foreground">
               Contraseña
             </Label>
             <Input
@@ -124,12 +124,12 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
               type="password"
               value={formData.contrasena}
               onChange={(e) => handleInputChange("contrasena", e.target.value)}
-              className="bg-background border-input"
+              className="bg-card border-input text-card-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmarContrasena" className="text-sm font-medium text-foreground">
+            <Label htmlFor="confirmarContrasena" className="text-sm font-medium text-card-foreground">
               Confirmar Contraseña
             </Label>
             <Input
@@ -137,18 +137,14 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
               type="password"
               value={formData.confirmarContrasena}
               onChange={(e) => handleInputChange("confirmarContrasena", e.target.value)}
-              className="bg-background border-input"
+              className="bg-card border-input text-card-foreground"
             />
           </div>
 
           <div className="space-y-3 pt-4">
             <Button
               onClick={handleRegister}
-              className="w-full py-6 text-base font-semibold rounded-lg"
-              style={{
-                backgroundColor: '#A8D08D',
-                color: '#000000'
-              }}
+              className="w-full py-6 text-base font-semibold rounded-lg bg-[hsl(100,40%,70%)] hover:bg-[hsl(100,40%,65%)] text-foreground"
             >
               Registrar
             </Button>
@@ -156,12 +152,7 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
             <Button
               onClick={onCancel}
               variant="outline"
-              className="w-full py-6 text-base font-semibold rounded-lg border-2"
-              style={{
-                backgroundColor: '#F4CCCC',
-                borderColor: '#E5A1A1',
-                color: '#000000'
-              }}
+              className="w-full py-6 text-base font-semibold rounded-lg border-2 bg-[hsl(0,60%,85%)] hover:bg-[hsl(0,60%,80%)] border-[hsl(0,50%,70%)] text-foreground"
             >
               Regresar
             </Button>
