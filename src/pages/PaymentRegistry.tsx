@@ -34,18 +34,18 @@ export default function PaymentRegistry() {
 
   return (
     <Layout userInitial="G">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+      <div className="bg-card rounded-lg shadow-md p-8 max-w-5xl mx-auto">
         {/* Header with Icon and Title */}
         <div className="flex items-center gap-4 mb-8">
           <div className="w-16 h-16 rounded-full bg-petmanager-accent/20 flex items-center justify-center">
             <Clock className="w-8 h-8 text-petmanager-primary" />
           </div>
-          <h1 className="text-3xl font-bold">Registro de pagos</h1>
+          <h1 className="text-3xl font-bold text-card-foreground">Registro de pagos</h1>
         </div>
 
         {/* Last Payment Information */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Información del último pago:</h2>
+          <h2 className="text-xl font-semibold mb-4 text-card-foreground">Información del último pago:</h2>
           
           <Table>
             <TableHeader>
@@ -79,7 +79,7 @@ export default function PaymentRegistry() {
 
         {/* Next Payment Information */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Información del próximo pago:</h2>
+          <h2 className="text-xl font-semibold mb-4 text-card-foreground">Información del próximo pago:</h2>
           
           <div className="border rounded-lg p-8 text-center bg-muted/30">
             <p className="text-muted-foreground mb-4">
