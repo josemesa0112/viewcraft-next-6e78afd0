@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { UserAlertDialog } from "./UserAlertDialog";
 import { CustomAlertDialog } from "@/components/ui/custom-alert-dialog";
 
 interface UserRegistrationFormProps {
@@ -21,14 +20,6 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
   });
 
   const [alertDialog, setAlertDialog] = useState<{
-    isOpen: boolean;
-    type: "invalid-name" | "invalid-email" | "invalid-document" | null;
-  }>({
-    isOpen: false,
-    type: null,
-  });
-
-  const [customAlert, setCustomAlert] = useState<{
     isOpen: boolean;
     title: string;
     description: string;
@@ -49,7 +40,7 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
     // Validar nombre (solo letras, espacios y signos diacríticos)
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
     if (!formData.nombreCompleto.trim()) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Campo requerido",
         description: "Por favor ingrese el nombre completo",
@@ -57,14 +48,18 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
       return;
     }
     if (!nameRegex.test(formData.nombreCompleto)) {
-      setAlertDialog({ isOpen: true, type: "invalid-name" });
+      setAlertDialog({
+        isOpen: true,
+        title: "Nombre inválido",
+        description: "El campo de nombre solo permite letras, espacios y signos diacríticos",
+      });
       return;
     }
 
     // Validar email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Campo requerido",
         description: "Por favor ingrese el email",
@@ -72,14 +67,18 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
       return;
     }
     if (!emailRegex.test(formData.email)) {
-      setAlertDialog({ isOpen: true, type: "invalid-email" });
+      setAlertDialog({
+        isOpen: true,
+        title: "Email inválido",
+        description: "Ingrese un email válido",
+      });
       return;
     }
 
     // Validar documento
     const documentRegex = /^\d{7,10}$/;
     if (!formData.documento.trim()) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Campo requerido",
         description: "Por favor ingrese el documento",
@@ -87,13 +86,17 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
       return;
     }
     if (!documentRegex.test(formData.documento)) {
-      setAlertDialog({ isOpen: true, type: "invalid-document" });
+      setAlertDialog({
+        isOpen: true,
+        title: "Documento inválido",
+        description: "Ingrese un documento válido (7-10 dígitos)",
+      });
       return;
     }
 
     // Validar contraseña
     if (!formData.contrasena.trim()) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Campo requerido",
         description: "Por favor ingrese una contraseña",
@@ -101,7 +104,7 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
       return;
     }
     if (formData.contrasena.length < 6) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Contraseña inválida",
         description: "La contraseña debe tener al menos 6 caracteres",
@@ -111,7 +114,7 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
 
     // Validar confirmación de contraseña
     if (!formData.confirmarContrasena.trim()) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Campo requerido",
         description: "Por favor confirme su contraseña",
@@ -119,7 +122,7 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
       return;
     }
     if (formData.contrasena !== formData.confirmarContrasena) {
-      setCustomAlert({
+      setAlertDialog({
         isOpen: true,
         title: "Las contraseñas no coinciden",
         description: "Por favor verifique que ambas contraseñas sean iguales",
@@ -150,17 +153,11 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
 
   return (
     <>
-      <UserAlertDialog
-        isOpen={alertDialog.isOpen}
-        onClose={() => setAlertDialog({ isOpen: false, type: null })}
-        type={alertDialog.type!}
-      />
-      
       <CustomAlertDialog
-        isOpen={customAlert.isOpen}
-        onClose={() => setCustomAlert({ isOpen: false, title: "", description: "" })}
-        title={customAlert.title}
-        description={customAlert.description}
+        isOpen={alertDialog.isOpen}
+        onClose={() => setAlertDialog({ isOpen: false, title: "", description: "" })}
+        title={alertDialog.title}
+        description={alertDialog.description}
         variant="error"
       />
 
