@@ -11,8 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UserCog } from "lucide-react";
+import { UserCog, Package } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 
 // Mock data - esto puede venir de una base de datos más adelante
 const providersData: Record<string, any> = {
@@ -67,6 +68,18 @@ export default function ProviderProfile() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const provider = id ? providersData[id] : null;
+  
+  const [products, setProducts] = useState<string[]>([
+    "Ringo | Comida para Perro"
+  ]);
+  const [newProduct, setNewProduct] = useState("");
+
+  const handleAddProduct = () => {
+    if (newProduct.trim()) {
+      setProducts([...products, newProduct.trim()]);
+      setNewProduct("");
+    }
+  };
 
   if (!provider) {
     return (
@@ -168,6 +181,46 @@ export default function ProviderProfile() {
                 onClick={() => navigate("/proveedores")}
               >
                 Regresar
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Productos del Proveedor */}
+        <Card className="bg-petmanager-surface shadow-lg mt-6">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <Package className="h-8 w-8 text-[hsl(var(--petmanager-accent))]" />
+              <CardTitle className="text-2xl">Productos del Proveedor</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4 px-12">
+            {/* Lista de productos */}
+            <div className="space-y-2 mb-6">
+              {products.map((product, index) => (
+                <div
+                  key={index}
+                  className="p-3 bg-background border border-input rounded-md text-foreground"
+                >
+                  {product}
+                </div>
+              ))}
+            </div>
+
+            {/* Campo para añadir producto */}
+            <div className="space-y-3">
+              <Input
+                placeholder="Nombre del producto"
+                value={newProduct}
+                onChange={(e) => setNewProduct(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleAddProduct()}
+                className="bg-background border-input"
+              />
+              <Button
+                onClick={handleAddProduct}
+                className="bg-[hsl(120,40%,75%)] hover:bg-[hsl(120,40%,70%)] text-foreground w-full"
+              >
+                Añadir producto
               </Button>
             </div>
           </CardContent>
