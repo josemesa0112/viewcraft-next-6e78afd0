@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { CustomAlertDialog } from "@/components/ui/custom-alert-dialog";
+import { ValidationModal } from "@/components/provider/ValidationModal";
 
 interface UserRegistrationFormProps {
   onCancel: () => void;
@@ -19,15 +19,8 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
     confirmarContrasena: "",
   });
 
-  const [alertDialog, setAlertDialog] = useState<{
-    isOpen: boolean;
-    title: string;
-    description: string;
-  }>({
-    isOpen: false,
-    title: "",
-    description: "",
-  });
+  const [validationMessage, setValidationMessage] = useState("");
+  const [showValidationModal, setShowValidationModal] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -40,93 +33,70 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
     // Validar nombre (solo letras, espacios y signos diacríticos)
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
     if (!formData.nombreCompleto.trim()) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Campo requerido",
-        description: "Por favor ingrese el nombre completo",
-      });
+      setValidationMessage("Por favor ingrese el nombre completo");
+      setShowValidationModal(true);
       return;
     }
     if (!nameRegex.test(formData.nombreCompleto)) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Nombre inválido",
-        description: "El campo de nombre solo permite letras, espacios y signos diacríticos",
-      });
+      setValidationMessage("El campo de nombre solo permite letras, espacios y signos diacríticos");
+      setShowValidationModal(true);
       return;
     }
 
     // Validar email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Campo requerido",
-        description: "Por favor ingrese el email",
-      });
+      setValidationMessage("Por favor ingrese el email");
+      setShowValidationModal(true);
       return;
     }
     if (!emailRegex.test(formData.email)) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Email inválido",
-        description: "Ingrese un email válido",
-      });
+      setValidationMessage("Ingrese un email válido");
+      setShowValidationModal(true);
       return;
     }
 
     // Validar documento
     const documentRegex = /^\d{7,10}$/;
     if (!formData.documento.trim()) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Campo requerido",
-        description: "Por favor ingrese el documento",
-      });
+      setValidationMessage("Por favor ingrese el documento");
+      setShowValidationModal(true);
       return;
     }
     if (!documentRegex.test(formData.documento)) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Documento inválido",
-        description: "Ingrese un documento válido (7-10 dígitos)",
-      });
+      setValidationMessage("Ingrese un documento válido (7-10 dígitos)");
+      setShowValidationModal(true);
       return;
     }
 
     // Validar contraseña
     if (!formData.contrasena.trim()) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Campo requerido",
-        description: "Por favor ingrese una contraseña",
-      });
+      setValidationMessage("Por favor ingrese una contraseña");
+      setShowValidationModal(true);
       return;
     }
-    if (formData.contrasena.length < 6) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Contraseña inválida",
-        description: "La contraseña debe tener al menos 6 caracteres",
-      });
+    
+    // Validar requisitos de contraseña
+    const hasUpperCase = /[A-Z]/.test(formData.contrasena);
+    const hasLowerCase = /[a-z]/.test(formData.contrasena);
+    const hasNumber = /[0-9]/.test(formData.contrasena);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(formData.contrasena);
+    
+    if (formData.contrasena.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+      setValidationMessage("La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula, un número y un carácter especial.");
+      setShowValidationModal(true);
       return;
     }
 
     // Validar confirmación de contraseña
     if (!formData.confirmarContrasena.trim()) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Campo requerido",
-        description: "Por favor confirme su contraseña",
-      });
+      setValidationMessage("Por favor confirme su contraseña");
+      setShowValidationModal(true);
       return;
     }
     if (formData.contrasena !== formData.confirmarContrasena) {
-      setAlertDialog({
-        isOpen: true,
-        title: "Las contraseñas no coinciden",
-        description: "Por favor verifique que ambas contraseñas sean iguales",
-      });
+      setValidationMessage("Las contraseñas no coinciden. Por favor verifique que ambas contraseñas sean iguales");
+      setShowValidationModal(true);
       return;
     }
 
@@ -153,13 +123,6 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
 
   return (
     <>
-      <CustomAlertDialog
-        isOpen={alertDialog.isOpen}
-        onClose={() => setAlertDialog({ isOpen: false, title: "", description: "" })}
-        title={alertDialog.title}
-        description={alertDialog.description}
-        variant="error"
-      />
 
       <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
         <Card className="w-full max-w-md bg-card shadow-xl">
@@ -253,6 +216,13 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
         </CardContent>
       </Card>
     </div>
+
+    <ValidationModal
+      isOpen={showValidationModal}
+      onClose={() => setShowValidationModal(false)}
+      message={validationMessage}
+      isSuccess={false}
+    />
     </>
   );
 }
