@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import { UserAlertDialog } from "./UserAlertDialog";
+import { CustomAlertDialog } from "@/components/ui/custom-alert-dialog";
 
 interface UserRegistrationFormProps {
   onCancel: () => void;
@@ -18,6 +20,24 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
     confirmarContrasena: "",
   });
 
+  const [alertDialog, setAlertDialog] = useState<{
+    isOpen: boolean;
+    type: "invalid-name" | "invalid-email" | "invalid-document" | null;
+  }>({
+    isOpen: false,
+    type: null,
+  });
+
+  const [customAlert, setCustomAlert] = useState<{
+    isOpen: boolean;
+    title: string;
+    description: string;
+  }>({
+    isOpen: false,
+    title: "",
+    description: "",
+  });
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -26,22 +46,83 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
   };
 
   const handleRegister = () => {
-    // Validación simple
-    if (!formData.nombreCompleto || !formData.email || !formData.documento || 
-        !formData.contrasena || !formData.confirmarContrasena) {
-      toast({
-        title: "Error",
-        description: "Por favor completa todos los campos",
-        variant: "destructive",
+    // Validar nombre (solo letras, espacios y signos diacríticos)
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
+    if (!formData.nombreCompleto.trim()) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Campo requerido",
+        description: "Por favor ingrese el nombre completo",
+      });
+      return;
+    }
+    if (!nameRegex.test(formData.nombreCompleto)) {
+      setAlertDialog({ isOpen: true, type: "invalid-name" });
+      return;
+    }
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Campo requerido",
+        description: "Por favor ingrese el email",
+      });
+      return;
+    }
+    if (!emailRegex.test(formData.email)) {
+      setAlertDialog({ isOpen: true, type: "invalid-email" });
+      return;
+    }
+
+    // Validar documento
+    const documentRegex = /^\d{7,10}$/;
+    if (!formData.documento.trim()) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Campo requerido",
+        description: "Por favor ingrese el documento",
+      });
+      return;
+    }
+    if (!documentRegex.test(formData.documento)) {
+      setAlertDialog({ isOpen: true, type: "invalid-document" });
+      return;
+    }
+
+    // Validar contraseña
+    if (!formData.contrasena.trim()) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Campo requerido",
+        description: "Por favor ingrese una contraseña",
+      });
+      return;
+    }
+    if (formData.contrasena.length < 6) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Contraseña inválida",
+        description: "La contraseña debe tener al menos 6 caracteres",
       });
       return;
     }
 
+    // Validar confirmación de contraseña
+    if (!formData.confirmarContrasena.trim()) {
+      setCustomAlert({
+        isOpen: true,
+        title: "Campo requerido",
+        description: "Por favor confirme su contraseña",
+      });
+      return;
+    }
     if (formData.contrasena !== formData.confirmarContrasena) {
-      toast({
-        title: "Error",
-        description: "Las contraseñas no coinciden",
-        variant: "destructive",
+      setCustomAlert({
+        isOpen: true,
+        title: "Las contraseñas no coinciden",
+        description: "Por favor verifique que ambas contraseñas sean iguales",
       });
       return;
     }
@@ -68,8 +149,23 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
-      <Card className="w-full max-w-md bg-card shadow-xl">
+    <>
+      <UserAlertDialog
+        isOpen={alertDialog.isOpen}
+        onClose={() => setAlertDialog({ isOpen: false, type: null })}
+        type={alertDialog.type!}
+      />
+      
+      <CustomAlertDialog
+        isOpen={customAlert.isOpen}
+        onClose={() => setCustomAlert({ isOpen: false, title: "", description: "" })}
+        title={customAlert.title}
+        description={customAlert.description}
+        variant="error"
+      />
+
+      <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
+        <Card className="w-full max-w-md bg-card shadow-xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-card-foreground">
             Registro de usuario
@@ -160,5 +256,6 @@ export function UserRegistrationForm({ onCancel }: UserRegistrationFormProps) {
         </CardContent>
       </Card>
     </div>
+    </>
   );
 }
